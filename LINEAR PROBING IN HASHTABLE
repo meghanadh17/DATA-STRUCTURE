@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TABLE_SIZE 10
+
+typedef struct {
+    int key;
+} HashTable;
+
+void initHashTable(HashTable* table) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        table[i].key = -1; // Initialize all keys to -1
+    }
+}
+
+void insert(HashTable* table, int key) {
+    int index = key % TABLE_SIZE;
+    int i = 0;
+    while (table[(index + i) % TABLE_SIZE].key != -1 && i < TABLE_SIZE) {
+        i++;
+    }
+    if (i < TABLE_SIZE) {
+        table[(index + i) % TABLE_SIZE].key = key;
+    } else {
+        printf("Hashtable is full!\n");
+    }
+}
+
+void search(HashTable* table, int key) {
+    int index = key % TABLE_SIZE;
+    int i = 0;
+    while (table[(index + i) % TABLE_SIZE].key != key && i < TABLE_SIZE) {
+        i++;
+    }
+    if (i < TABLE_SIZE) {
+        printf("Key found at index %d\n", (index + i) % TABLE_SIZE);
+    } else {
+        printf("Key not found!\n");
+    }
+}
+
+void display(HashTable* table) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        printf("Index %d: %d\n", i, table[i].key);
+    }
+}
+
+int main() {
+    
+    HashTable table;
+    initHashTable(&table);
+
+    insert(&table, 5);
+    insert(&table, 15);
+    insert(&table, 25);
+    insert(&table, 35);
+    insert(&table, 45);
+
+    display(&table);
+
+    search(&table, 25);
+    search(&table, 30);
+
+    return 0;
+}
