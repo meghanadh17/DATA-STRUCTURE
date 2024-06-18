@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+#define V 5
+
+void BFS(int graph[V][V], int vertex) {
+  bool visited[V];
+  for (int i = 0; i < V; i++) {
+    visited[i] = false;
+  }
+
+  int queue[V];
+  int front = 0, rear = 0;
+  queue[rear++] = vertex;
+  visited[vertex] = true;
+
+  while (front < rear) {
+    vertex = queue[front++];
+    printf("%d ", vertex);
+
+    for (int i = 0; i < V; i++) {
+      if (graph[vertex][i] == 1 && !visited[i]) {
+        queue[rear++] = i;
+        visited[i] = true;
+      }
+    }
+  }
+  printf("\n");
+}
+
+int main() {
+  int graph[V][V] = {
+    {0, 1, 1, 0, 0},
+    {1, 0, 1, 1, 0},
+    {1, 1, 0, 1, 1},
+    {0, 1, 1, 0, 1},
+    {0, 0, 1, 1, 0}
+  };
+
+  printf("Breadth-First Traversal: ");
+  BFS(graph, 0);
+
+  return 0;
+}
